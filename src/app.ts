@@ -6,6 +6,8 @@ import topicRoutes from "./routes/topic.routes.js";
 import validateRoutes from "./routes/validate.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
+import usageRoute from "./routes/usage.routes.js";
+
 import {
   errorHandler,
   notFoundHandler,
@@ -55,6 +57,7 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
+app.use('/api/usage' , usageRoute)
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/video', videoRoutes);
 app.use('/api/topics', topicRoutes);
