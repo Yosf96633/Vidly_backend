@@ -1,13 +1,15 @@
 import { Router } from "express";
-import topicController from '../controllers/topic.controller.js';
+import topicController from "../controllers/topic.controller.js";
+import { viralSearchLimiter } from "../middleware/featureLimiters.js";
 
 const router = Router();
 
 // GET /api/topics/search-advanced
 // Rate limited: 2 requests per 24 hours
 router.get(
-  '/search-advanced',
-  topicController.searchVideosAdvanced
+  "/search-advanced",
+  viralSearchLimiter,
+  topicController.searchVideosAdvanced,
 );
 
 export default router;
