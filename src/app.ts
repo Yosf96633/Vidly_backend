@@ -6,21 +6,13 @@ import topicRoutes from "./routes/topic.routes.js";
 import validateRoutes from "./routes/validate.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
 import feedbackRoutes from "./routes/feedback.routes.js";
-import usageRoutes from "./routes/usage.routes.js";
 import {
-  securityHeaders,
-  sanitizeInput,
-  preventNoSQLInjection,
-  requestSizeLimiter,
-  configureTrustedProxies,
   errorHandler,
   notFoundHandler,
 } from "./middleware/security.middleware.js";
 
 const app = express();
 
-// Trust proxy for Render deployment
-configureTrustedProxies(app);
 
 // CORS Configuration
 const allowedOrigins = [
@@ -49,13 +41,9 @@ app.use(
   })
 );
 
-// Security Middlewares (MUST be before routes)
-app.use(securityHeaders);
+
 app.use(express.json({ limit: '100kb' })); // Limit JSON payload size
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
-app.use(sanitizeInput);
-app.use(preventNoSQLInjection);
-app.use(requestSizeLimiter(100)); // 100KB max
 
 // Health check endpoint (no rate limit)
 app.get('/health', (req, res) => {
@@ -72,7 +60,6 @@ app.use('/api/video', videoRoutes);
 app.use('/api/topics', topicRoutes);
 app.use('/api', contactRoutes);
 app.use("/api", validateRoutes);
-app.use('/api/usage', usageRoutes);
 
 // 404 Handler
 app.use(notFoundHandler);
