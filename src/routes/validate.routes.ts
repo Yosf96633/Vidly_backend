@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { ideaValidatorController } from "../controllers/validate.controller.js";
+import { ideaValidatorController } from "../controllers/validate.controller";
 import type { Request, Response } from "express";
-import { ideaValidatorLimiter } from "../middleware/featureLimiters.js";
+import { ideaValidatorLimiter } from "../middleware/featureLimiters";
 const router = Router();
 
 // POST /api/validate-idea

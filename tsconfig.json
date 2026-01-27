@@ -5,11 +5,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     
-    // REMOVE OR SET TO FALSE:
-    "noEmit": false,  // Changed from true
-    
-    // REMOVE THIS (conflicts with emitting files):
-    // "allowImportingTsExtensions": true,  // Remove this line
+    "noEmit": false,
     
     "sourceMap": true,
     "declaration": true,
@@ -17,14 +13,19 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     
-    // Change moduleResolution for Node.js:
-    "moduleResolution": "node",  // Changed from "bundler"
+    "moduleResolution": "node",
     
     "strict": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    
+    // ADD THESE TWO LINES:
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import topicController from "../controllers/topic.controller.js";
-import { viralSearchLimiter } from "../middleware/featureLimiters.js";
+import topicController from "../controllers/topic.controller";
+import { viralSearchLimiter } from "../middleware/featureLimiters";
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import topicService from '../services/topic.service.js';
-import type { AdvancedVideoFilters } from '../utils/interfaces.js';
+import topicService from '../services/topic.service';
+import type { AdvancedVideoFilters } from '../utils/interfaces';
 
 class TopicController {
   

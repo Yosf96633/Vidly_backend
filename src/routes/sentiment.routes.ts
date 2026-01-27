@@ -3,8 +3,8 @@ import {
   analyzeVideo,
   getData,
   getStatus,
-} from "../controllers/sentiment.controller.js";
-import { commentAnalyzerLimiter } from "../middleware/featureLimiters.js";
+} from "../controllers/sentiment.controller";
+import { commentAnalyzerLimiter } from "../middleware/featureLimiters";
 
 const router = Router();
 // POST /api/video/analyze - Submit video for sentiment analysis

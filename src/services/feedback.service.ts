@@ -1,9 +1,9 @@
 import { resend, emailConfig } from "../config/resend";
-import { generateFeedbackEmailTemplate } from "../templates/feedbackEmailTemplate.ts";
+import { generateFeedbackEmailTemplate } from "../templates/feedbackEmailTemplate";
 import Feedback from "../models/Feedback";
 import type { IFeedback } from "../models/Feedback";
 import mongoose from "mongoose";
-import type { FeedbackEmailData } from "../templates/feedbackEmailTemplate.ts";
+import type { FeedbackEmailData } from "../templates/feedbackEmailTemplate";
 interface FeedbackData {
   rating: number;
   tool: string;

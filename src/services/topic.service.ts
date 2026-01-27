@@ -1,16 +1,16 @@
-import youtubeService from "./youtube.service.js";
+import youtubeService from "./youtube.service";
 import type {
   AdvancedTopicAnalysis,
   AdvancedSearchTopic,
   AdvancedSuggestions,
   AdvancedVideoFilters,
   EnrichedVideoData,
-} from "../utils/interfaces.js";
+} from "../utils/interfaces";
 import {
   parseDurationToMinutes,
   getCpmEstimate,
   extractCommonWords,
-} from "../utils/helpers.js";
+} from "../utils/helpers";
 
 class TopicService {
   private topicCache = new Map<string, { data: any; timestamp: number }>();
