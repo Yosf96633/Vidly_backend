@@ -1,7 +1,7 @@
 // src/middlewares/rate-limiter.middleware.ts
 import express from "express";
 import { Redis } from "ioredis";
-import { redisConnection } from "../config/redis.js";
+import { redisConnection } from "../config/redis";
 import crypto from "crypto";
 
 type Request = express.Request;

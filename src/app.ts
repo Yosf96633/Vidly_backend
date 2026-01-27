@@ -1,17 +1,17 @@
 // src/app.ts
 import express from "express";
 import cors from "cors";
-import videoRoutes from "./routes/sentiment.routes.js";
-import topicRoutes from "./routes/topic.routes.js";
-import validateRoutes from "./routes/validate.routes.js";
-import contactRoutes from "./routes/contact.routes.js";
-import feedbackRoutes from "./routes/feedback.routes.js";
-import usageRoute from "./routes/usage.routes.js";
+import videoRoutes from "./routes/sentiment.routes";
+import topicRoutes from "./routes/topic.routes";
+import validateRoutes from "./routes/validate.routes";
+import contactRoutes from "./routes/contact.routes";
+import feedbackRoutes from "./routes/feedback.routes";
+import usageRoute from "./routes/usage.routes";
 
 import {
   errorHandler,
   notFoundHandler,
-} from "./middleware/security.middleware.js";
+} from "./middleware/security.middleware";
 
 const app = express();
 
