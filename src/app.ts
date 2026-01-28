@@ -18,10 +18,11 @@ const app = express();
 
 // CORS Configuration
 const allowedOrigins = [
-  'https://vidspire.vercel.app',
+  'https://www.getvidly.com',
+  'https://vidly-frontend-pi.vercel.app',
   'http://localhost:3000',
   'http://localhost:5173',
-  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL! as string,
 ].filter(Boolean);
 
 app.use(
