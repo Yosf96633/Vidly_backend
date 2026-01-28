@@ -2,11 +2,12 @@
   "name": "vidly-backend",
   "version": "1.0.0",
   "description": "YouTube sentiment analysis backend",
-  "main": "server.js",
+  "type": "commonjs",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/server.js",
-    "build" : "tsc",
+    "build": "tsc",
     "dev": "nodemon --exec tsx src/server.ts"
   },
   "keywords": [],
