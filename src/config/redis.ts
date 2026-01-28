@@ -1,17 +1,14 @@
 import { config } from "dotenv";
 import path from "path";
-import { fileURLToPath } from "url";
-
-const __dirname = path.resolve();
 
 // Load .env from project root
-config({ path: path.resolve(__dirname, ".env") });
+config({ path: path.resolve(process.cwd(), ".env") });
 
 interface IRedis {
   host: string;
   password: string;
   port: number;
-  family?: number; // Make optional
+  family?: number;
   tls?: {
     rejectUnauthorized: boolean;
   };
@@ -38,14 +35,12 @@ export const redisConnection: IRedis = {
   enableReadyCheck: false,
   connectTimeout: 10000,
   
-  // Only add TLS for Upstash
   ...(isUpstash && {
     tls: {
       rejectUnauthorized: false,
     },
   }),
   
-  // Use IPv4 for Redis Cloud, auto-detect for others
   ...(isRedisCloud && { family: 4 }),
   
   retryStrategy: (times: number) => {

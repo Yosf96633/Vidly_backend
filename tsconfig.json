@@ -1,27 +1,13 @@
 {
   "compilerOptions": {
+    "target": "ES2020",
     "module": "commonjs",
-    "target": "es2020",
     "rootDir": "./src",
     "outDir": "./dist",
-    
-    "noEmit": false,
-    
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "noUncheckedIndexedAccess": true,    
-    "moduleResolution": "node",
-    
-    "strict": false,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
-    
-    // ADD THESE TWO LINES:
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "strict": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
