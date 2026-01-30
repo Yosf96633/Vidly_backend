@@ -9,8 +9,6 @@ import { socketService } from '../services/socket.service';
 async function processVideoAnalysis(job: Job<VideoAnalysisJobData>) {
   const { jobId, videoId, videoUrl } = job.data;
   
-  console.log(`🎬 Processing job ${jobId} for video ${videoId}`);
-  
   try {
     // Emit: Job started
     socketService.emitProgress({
@@ -34,10 +32,7 @@ async function processVideoAnalysis(job: Job<VideoAnalysisJobData>) {
       message: 'Fetching comments from YouTube...',
       percentage: 10,
       timestamp: Date.now(),
-    });
-    
-    console.log('🚀 Fetching comments and transcript in parallel...');
-    
+    });    
     const [commentsResult, transcriptResult] = await Promise.allSettled([
       youtubeService.fetchAllComments(videoId),
       youtubeService.fetchTranscript(videoId),
@@ -186,7 +181,7 @@ async function processVideoAnalysis(job: Job<VideoAnalysisJobData>) {
   }
 }
 
-// Create worker with concurrency of 2
+// Create worker with concurrency of 3
 export const videoAnalysisWorker = new Worker(
   'video-analysis',
   processVideoAnalysis,
