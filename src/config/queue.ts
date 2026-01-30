@@ -97,16 +97,18 @@ export const videoAnalysisQueue = new Queue<VideoAnalysisJobData>(
   {
     connection: redisConnection,
     defaultJobOptions: {
-      attempts: 3,
+      attempts: 1,
       backoff: {
-        type: "fixed",
+        type: "exponential",
         delay: 5000,
       },
       removeOnComplete: {
         count: 100,
+        age: 86400,
       },
       removeOnFail: {
         count: 50,
+        age: 86400,
       },
     },
   },
@@ -116,10 +118,14 @@ videoAnalysisQueue.on("error", (err) => {
   console.error("❌ BullMQ Queue Error:", err.message);
 });
 
-videoAnalysisQueue.on("waiting", (jobId) => {
-  console.log(`⏳ Job ${jobId} is waiting`);
+videoAnalysisQueue.on("waiting", async (job) => {
+  // Get the job details properly
+  const jobDetails = typeof job === 'object' && job !== null 
+    ? await videoAnalysisQueue.getJob(job.id || String(job))
+    : await videoAnalysisQueue.getJob(String(job));
+    
+  console.log(`⏳ Job ${jobDetails?.id || job} is waiting`);
 });
-
 // Helper function to get job status
 export async function getJobStatus(
   jobId: string,
