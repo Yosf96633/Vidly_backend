@@ -37,11 +37,16 @@ export async function analyzeVideo(req: Request, res: Response) {
         videoId,
       },
       {
-        jobId, // Use our UUID as the job ID
+        jobId,
+        attempts: 1, // ✅ Only try once - don't retry user errors
+        removeOnComplete: {
+          age: 3600, // Remove after 1 hour
+        },
+        removeOnFail: {
+          age: 86400, // Keep failed for 24 hours for debugging
+        },
       },
     );
-
-    console.log(`✅ Job ${jobId} created for video ${videoId}`);
 
     // Return job ID immediately
     return res.status(202).json({
@@ -74,7 +79,7 @@ export async function getStatus(req: Request, res: Response) {
       });
     }
 
-    const status = await getJobStatus(jobId);
+    const status = await getJobStatus(jobId as string);
 
     if (!status) {
       return res.status(404).json({
@@ -109,7 +114,7 @@ export async function getData(req: Request, res: Response) {
       });
     }
 
-    const status = await getJobStatus(jobId);
+    const status = await getJobStatus(jobId as string);
 
     if (!status) {
       return res.status(404).json({
