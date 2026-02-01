@@ -1,5 +1,6 @@
 import axios from "axios";
 import { YoutubeTranscript } from "youtube-transcript";
+import { Supadata } from "@supadata/js";
 import dotenv from "dotenv";
 import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
 dotenv.config();
@@ -242,30 +243,36 @@ class YouTubeService {
       const CHUNK_SIZE = 10000; // Chunk size for long transcripts
       const CHUNK_OVERLAP = 1000; // Overlap between chunks
       const CONCURRENT_CHUNKS = 3; // Process 3 chunks at a time
-      const API_KEY = process.env.GEMINI_API_KEY1 || "";
+      const GEMINI_API_KEY = process.env.GEMINI_API_KEY1 || "";
+      const SUPADATA_API_KEY =
+        process.env.SUPADATA_API_KEY1;
 
       // ========================================
-      // STEP 1: FETCH RAW TRANSCRIPT
+      // STEP 1: FETCH RAW TRANSCRIPT USING SUPADATA
       // ========================================
       console.log(`🎥 Fetching transcript for video ${videoId}...`);
 
-      const loader = YoutubeLoader.createFromUrl(
-        `https://youtu.be/${videoId}`,
-        { language: "en", addVideoInfo: true },
-      );
+      const supadata = new Supadata({
+        apiKey: SUPADATA_API_KEY,
+      });
+       
+      const transcriptResult: any = await supadata.transcript({
+        url: `https://youtu.be/${videoId}`,
+        lang: "en", // Try English first
+        text: true, // Get plain text instead of timestamped chunks
+      });
 
-      const transcriptData = await loader.load();
-
-      if (!transcriptData || transcriptData.length === 0) {
+      // Check if transcript is available
+      if (
+        !transcriptResult ||
+        !transcriptResult?.content ||
+        transcriptResult?.content?.trim() === ""
+      ) {
         console.log(`⚠️ No transcript available for video ${videoId}`);
         return { text: "", available: false };
       }
 
-      const fullTranscript = transcriptData
-        .map((item) => item.pageContent)
-        .join(" ")
-        .trim();
-
+      const fullTranscript = transcriptResult?.content.trim();
       console.log(`📊 Raw transcript: ${fullTranscript.length} chars`);
 
       // ========================================
@@ -277,7 +284,7 @@ class YouTubeService {
       }
 
       console.log(
-        `📦 Transcript too long, starting chunking & summarization...`,
+        `📦 Transcript too long (${fullTranscript.length} chars), starting chunking & summarization...`,
       );
 
       // ========================================
@@ -315,7 +322,7 @@ class YouTubeService {
           try {
             const model = new ChatGoogleGenerativeAI({
               model: "gemini-2.0-flash",
-              apiKey: API_KEY,
+              apiKey: GEMINI_API_KEY,
             }).withStructuredOutput(TranscriptSummarySchema);
 
             const prompt = `Summarize part ${chunkIndex + 1}/${
@@ -378,7 +385,7 @@ ${result.key_moments.map((m) => `- ${m.topic}: ${m.description}`).join("\n")}
       try {
         const model = new ChatGoogleGenerativeAI({
           model: "gemini-2.0-flash",
-          apiKey: API_KEY,
+          apiKey: GEMINI_API_KEY,
         }).withStructuredOutput(TranscriptSummarySchema);
 
         const prompt = `Merge these ${summaries.length} summaries into one cohesive summary.
